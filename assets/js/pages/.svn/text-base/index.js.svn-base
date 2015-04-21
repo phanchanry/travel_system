@@ -1,0 +1,82 @@
+$(document).ready(function () {
+    //check user login or not 
+	  $.ajax({
+		  url: Base_Url + "/home/checkUserLogIn",
+		  dataType : "json",
+		  type : "POST",
+		  data : { },
+		  success : function(data){
+	      if (data.result == "success") {
+	      	IsLogin = data.isLogin;
+	      }
+	  }
+	});	
+    /* trip menu on left menu toggle show hidden   */
+    $("div#trips_toggle").click(function (e) {
+        if ($("div.custom-container").hasClass("draw-open") && $(this).hasClass("active")) {
+            $("div.custom-container").removeClass("draw-open");
+            $(this).parent().find("div[role='button']").removeAttr("class");
+            return;
+        } else {
+            $("div.custom-container").addClass("draw-open");
+        }
+         if (!$(this).hasClass("active")) {
+        	$("div#place_view").hide();
+         	$("div#trips_view").show();
+         	$("div#trip_save_view").addClass("hide");
+            $(this).attr("class", "active");
+            $(this).closest("div#drawer_toggles").find("div#places_toggle").attr("class", "deactive");
+        }     
+    });
+    
+     /* place menu on left menu toggle show hidden   */
+    $("div#places_toggle").click( function () {
+        
+        if ($("div.custom-container").hasClass("draw-open") && $(this).hasClass("active")) {
+            $("div.custom-container").removeClass("draw-open");
+            $(this).parent().find("div[role='button']").removeAttr("class");
+            return;
+        } else {
+            $("div.custom-container").addClass("draw-open");    
+        }
+        
+        if (!$(this).hasClass("active")) {
+        	$("div#trip_save_view").addClass("hide");
+        	$("div#place_view").show();
+        	$("div#trips_view").hide();
+            $(this).attr("class", "active");
+            $(this).closest("div#drawer_toggles").find("div#trips_toggle").attr("class", "deactive");
+        }
+    });
+     //login modal load
+    $("button#logIn").click(function () {
+        var tempUrl = Base_Url + '/user/load_login_modal';
+        $("div#ts_model").load(tempUrl, function () {
+            $("div#loginModal").modal('show');
+        });
+    });
+     //sign Up modal load
+    $("button#signUp").click(function () {
+        var tempUrl = Base_Url + '/user/load_signup_modal';
+        $("div#ts_model").load(tempUrl, function () {
+            $("div#loginModal").modal('show');
+        });
+    });
+    infowindow = new google.maps.InfoWindow({ content: "" });	
+
+	
+
+	geocoder = new google.maps.Geocoder();
+    //google map initialize
+    //function initialize() {
+	  var mapOptions = {
+	    zoom: 8,
+	    center: new google.maps.LatLng(-34.397, 150.644)
+	  };
+	  map = new google.maps.Map(document.getElementById('mapCanvas'),
+	      mapOptions);
+	//}
+   // google.maps.event.addDomListener(window, 'load', initialize);
+});
+
+

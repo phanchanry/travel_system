@@ -1,0 +1,108 @@
+<link type="text/css" rel="stylesheet" href="<?php echo HTTP_CSS_PATH_ADMIN; ?>datatables/dataTables.bootstrap.css">
+<link type="text/css" rel="stylesheet" href="<?php echo HTTP_CSS_PATH_ADMIN; ?>style.css">
+<script src="<?php echo HTTP_JS_PATH_ADMIN; ?>jquery.dataTables.js"></script>    
+<script src="<?php echo HTTP_JS_PATH_ADMIN; ?>dataTables.bootstrap.js"></script>
+<script src="<?php echo HTTP_JS_PATH_ADMIN; ?>table-managed-tables.js"></script>
+<script src="<?php echo HTTP_JS_PATH; ?>jquery.validate.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&language=en&sensor=false&libraries=places"></script>
+<script src="<?php echo HTTP_JS_PATH_ADMIN; ?>pages/location.js"></script>
+<div id="main-content" style="margin-left: 225px;">
+    <div id="page-header">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-title">Location Management&nbsp;</h1>
+                <ol class="breadcrumb page-breadcrumb">
+                    <li><i class="fa fa-home"></i>&nbsp;
+                        <a href="/admin">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                    </li>
+                    <li>
+                        <a href="/admin/home">Location Management</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;
+                    </li>
+                    <li class="active">Add Location</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet portlet-tertiary">
+                <div class="portlet-header" style="padding: 7px 10px;">
+                    <div class="caption" style="margin: 0;line-height: 26px;">
+                        Add Location
+                    </div>
+                    <div class="tools">
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="col-md-7">
+                        <div class="form-body form-horizontal">
+                            <form role="form" id="addLocationForm" method="post">
+                                <input type="hidden" name="locationImage" />
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Location Title<span class="required">*</span></label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="locationTitle" placeholder="Enter Location Title" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Location Sub Title<span class="required">*</span></label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="locationSubTitle" placeholder="Enter Location Sub Title" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Location Category<span class="required">*</span></label>
+                                    <div class="col-md-7">
+                                        <select name="locationCategory" class="form-control">
+                                            <?php 
+                                                foreach($categoryLists as $k => $v) {
+                                                    echo "<option value='".$v->category_id."'>".$v->ts_category_title."</option>";
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Location Address</label>
+                                    <div class="col-md-5">
+                                        <textarea name="locationAddress" rows="3" placeholder="Location Address" class="form-control"></textarea>
+                                    </div>
+                                    <a href="#" id="findOnMap" class="btn btn-tertiary btn-sm">Find <br/>on Map</a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Location Description<span class="required">*</span></label>
+                                    <div class="col-md-8">
+                                        <textarea name="locationDescription" rows="12" placeholder="Location Description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="locationLat" />
+                                <input type="hidden" name="locationLon" />
+                            </form>      
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Location Image<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                   <form id="uploadLocationImageForm" class="attached-form" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>admin/location/uploadLocationImage" style="margin: 0">
+                                        <input type="file" class="form-control" name="locationImageUpload" style="height: auto;">                        
+                                   </form>
+                                   <br/>
+                                   <div class="col-md-2" id="location_image_view" >
+                                   </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="col-md-offset-3 col-md-9">
+                                <a href="#" id="saveLocation" class="btn btn-primary">Save</a>
+                                &nbsp;
+                                <a href="<?php echo base_url();?>admin/location" class="btn btn-danger">List</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div id="adminMapCanvas" style="height: 600px; margin: 10px;"></div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">tableManaged.init();</script>

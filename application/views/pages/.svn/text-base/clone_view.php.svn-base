@@ -1,0 +1,34 @@
+<div id="clone_way_view" class="hide">
+	<div class="way-point">
+		<div class="way-index">
+			<div id="index"><span></span></div>
+		</div>
+		<div class="way-input">
+			 <div class="col-md-12">
+				<div class="input-group">
+					<input type="text" class="form-control input-lg" name="tripLocationText">
+					<span class="input-group-addon"><i class="icon-2x fa fa-globe"></i></span>
+					<div id="trips_remove"><i class="fa fa-trash-o"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="way-detail row">
+		<input type="hidden" id="tripItemDistanceValue" />
+		<input type="hidden" id="tripItemTimeValue" />
+		<input type="hidden" id="locationId" />
+		<div class="col-md-12" style="padding-left: 10px;">
+			<div class="col-md-1" id="insert_way_point_toggle">
+				<i class="icon-sm fa fa-plus-circle" id='way_point_add' onclick="onClickTripItemAdd(this, true);"></i>
+			</div>
+			<div id="way_distance" class="col-md-5">
+				<i class="icon-sm fa  fa-space-shuttle"></i>
+				<span></span>
+			</div>
+			<div id="way_time">
+				<i class="icon-sm fa fa-history"></i>
+				<span></span>
+			</div>
+		</div>
+	</div>  
+</div>

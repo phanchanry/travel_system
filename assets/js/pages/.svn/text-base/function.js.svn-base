@@ -1,0 +1,17 @@
+//number or not check
+function IsNumeric(num) {
+    return (num >=0 || num < 0);
+}
+//get random number (data length)
+function GetRandomNumber ( length ) {
+	var strPattern = "123456789";
+	var strResult = "";
+	for( var i = 0; i < length; i ++ ){
+		var randPos = getRandomInt( 0, strPattern.length - 1 );
+		strResult = strResult + strPattern.substr( randPos, 1 );
+	}
+	return strResult;
+}
+function getRandomInt(min, max) {
+	  return Math.floor(Math.random() * (max - min + 1) + min);
+}

@@ -1,0 +1,10 @@
+<script type="text/javascript">
+var Base_Url = document.location.origin;
+var MarkerPlanTripList = [];
+var DirectionPlanTripDisplayList = [];
+var map;
+var isOpenRightBar = false;
+var SiteName = document.domain;
+var Trips_key = '';
+var IsLogin = '';
+</script>

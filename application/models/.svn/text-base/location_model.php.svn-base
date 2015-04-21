@@ -1,0 +1,98 @@
+<?php
+/*
+ *************************************************************************
+* @filename		: petition_data_model.php
+* @description	: Model of users
+*------------------------------------------------------------------------
+* VER  DATE         AUTHOR      DESCRIPTION
+* ---  -----------  ----------  -----------------------------------------
+* 1.0  2014.0.9.21   Jimm         Initial
+* ---  -----------  ----------  -----------------------------------------
+* GRCenter Web Client
+*************************************************************************
+*/
+class Location_model extends CI_Model {
+
+	function __construct() {
+		parent::__construct();
+
+		//$this->load->model('common_model');
+	}
+	/* get all questions on question view page */
+	function getLocations ($id = null) {
+	    $str_sql = "SELECT * FROM ts_location";
+	    if ($id != null)
+	        $str_sql .= " WHERE location_id = $id";
+	    return $this->db->query($str_sql)->result();
+	}
+	/* save location information data: form submit */
+	function saveLocation () {
+	    $locationTitle = $_POST['locationTitle'];
+	    $locationCategory = $_POST['locationCategory'];
+	    $locationDescription = $_POST['locationDescription'];
+	    $locationImage = $_POST['locationImage'];
+	    $locationLat = $_POST['locationLat'];
+	    $locationLon = $_POST['locationLon'];
+	    
+	    $userId = $this->session->userdata('ADMIN_ID');
+	    if (isset($_POST['locationId'])){
+	        $str_sql = "UPDATE ts_location
+	                       SET category_id = ?
+	                         , ts_location_title = ?
+	                         , ts_location_description = ?
+	                         , ts_lat = ?
+	                         , ts_lon = ?
+	                         , ts_location_photo = ?
+	                         , ts_updated_time = now()
+	                     WHERE location_id = ?";
+	        $params = array(
+	                        'category_id' => $locationCategory,
+	                        'title' => $locationTitle,
+	                        'description' => $locationDescription,
+	                        'lat' => $locationLat,
+	                        'lon' => $locationLon,
+	                        'locationPhoto' => $locationImage,
+	                        'location_id' => $_POST['locationId']
+	        );
+	        $this->db->query($str_sql, $params);
+	        $data['result'] = 'success';
+	    } else {
+	        $str_sql = "SELECT * FROM ts_location WHERE ts_location_title = ?";
+	        $params = array('title' => $locationTitle);
+	        $result = $this->db->query($str_sql, $params);
+	        if ($result->num_rows)
+	            $data['result'] = 'exist';
+	        else {
+	            $str_sql = "INSERT INTO ts_location
+    	                    (category_id, ts_location_title, ts_location_description, ts_lat, ts_lon, ts_location_photo, ts_created_time, ts_updated_time)
+    	                      VALUES (?,?,?,?,?,?,now(), now())";
+	            $params = array(
+	                            'category_id' => $locationCategory,
+	                            'locationTitle' => $locationTitle,
+	                            'location_description' => $locationDescription,
+	                            'lat' => $locationLat,
+	                            'lon' => $locationLon,
+	                            'location_photo' => $locationImage
+	            );
+	            $result = $this->db->query($str_sql, $params);
+	            $data['result'] = 'success';
+	        }
+	    }
+	    return $data;
+	    
+	}
+	/* remove place category by ids */
+	function removeLocationByIds() {
+	    $ids = $_POST['strIds'];
+	    $str_sql = "DELETE FROM ts_location where location_id in ($ids)";
+	     
+	    $result = $this->db->query($str_sql);
+	    if ($result)
+	        $data['result'] = 'success';
+	    else $data['result'] = 'failed';;
+	    return $data;
+	}
+}
+
+/* End of file user_model.php */
+/* Location: ./application/models/admin/user_model.php */
